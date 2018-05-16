@@ -53,35 +53,30 @@ function polygonArea(coords) {
  */
 
 function ringArea(coords) {
-    var p1, p2, p3, lowerIndex, middleIndex, upperIndex, i,
-    area = 0,
-    coordsLength = coords.length;
+    // it's a ring - ignore the last one
+    const len = coords.length - 1;
 
-    if (coordsLength > 2) {
-        for (i = 0; i < coordsLength; i++) {
-            if (i === coordsLength - 2) {// i = N-2
-                lowerIndex = coordsLength - 2;
-                middleIndex = coordsLength -1;
-                upperIndex = 0;
-            } else if (i === coordsLength - 1) {// i = N-1
-                lowerIndex = coordsLength - 1;
-                middleIndex = 0;
-                upperIndex = 1;
-            } else { // i = 0 to N-3
-                lowerIndex = i;
-                middleIndex = i+1;
-                upperIndex = i+2;
-            }
-            p1 = coords[lowerIndex];
-            p2 = coords[middleIndex];
-            p3 = coords[upperIndex];
-            area += ( rad(p3[0]) - rad(p1[0]) ) * Math.sin( rad(p2[1]));
-        }
-
-        area = area * wgs84.RADIUS * wgs84.RADIUS / 2;
+    if (len < 3) {
+        return 0;
     }
 
-    return area;
+    let total = 0;
+
+    // start from [len - 2, len - 1, 0]
+    let l_x = rad(coords[len - 2][0]), l_y = rad(coords[len - 2][1]);
+    let m_x = rad(coords[len - 1][0]), m_y = rad(coords[len - 1][1]);
+    let u_x = 0, u_y = 0;
+
+    for (let i = 0; i < len; i++) {
+        u_x = rad(coords[i][0]); u_y = rad(coords[i][1]);
+
+        total += ( u_x - l_x ) * Math.sin(m_y);
+
+        l_x = m_x; l_y = m_y;
+        m_x = u_x; m_y = u_y;
+    }
+
+    return total * wgs84.RADIUS * wgs84.RADIUS / 2;
 }
 
 function rad(_) {
