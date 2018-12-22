@@ -1,36 +1,29 @@
-var wgs84 = require('wgs84');
+const wgs84 = require('wgs84');
 
 module.exports.geometry = geometry;
 module.exports.ring = ringArea;
 
-function geometry(_) {
-    var area = 0, i;
-    switch (_.type) {
+function geometry({ type, coordinates, geometries }) {
+    switch (type) {
         case 'Polygon':
-            return polygonArea(_.coordinates);
+            return polygonArea(coordinates);
         case 'MultiPolygon':
-            for (i = 0; i < _.coordinates.length; i++) {
-                area += polygonArea(_.coordinates[i]);
-            }
-            return area;
+            return coordinates.reduce((area, p) => area + polygonArea(p), 0);
         case 'Point':
         case 'MultiPoint':
         case 'LineString':
         case 'MultiLineString':
             return 0;
         case 'GeometryCollection':
-            for (i = 0; i < _.geometries.length; i++) {
-                area += geometry(_.geometries[i]);
-            }
-            return area;
+            return geometries.reduce((area, g) => area + geometry(g), 0);
     }
 }
 
 function polygonArea(coords) {
-    var area = 0;
+    let area = 0;
     if (coords && coords.length > 0) {
         area += Math.abs(ringArea(coords[0]));
-        for (var i = 1; i < coords.length; i++) {
+        for (let i = 1; i < coords.length; i++) {
             area -= Math.abs(ringArea(coords[i]));
         }
     }
