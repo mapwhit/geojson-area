@@ -1,4 +1,10 @@
 
+1.0.1 / 2024-02-09
+==================
+
+ * replace Travis CI with github actions
+ * replace tape with node:test
+
 ## 1.0.0 / 2018-12-22
 
  * rename to @mapwhit/geojson-area
