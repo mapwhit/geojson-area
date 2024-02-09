@@ -1,30 +1,30 @@
-var gjArea = require('../'),
-    test = require('tape'),
-    ill = require('./illinois.json'),
-    all = require('./all.json');
+const assert = require('node:assert/strict');
+const test = require('node:test');
 
-test('geojson area', function(t) {
-    t.test('computes the area of illinois', function(t) {
-        // 145978332359.36746 - round to 1/1000th part for comparison
-        t.equal(Math.round(1000 * gjArea.geometry(ill)), 145978332359367);
-        t.end();
-    });
-    // http://www.wolframalpha.com/input/?i=surface+area+of+earth
-    t.test('computes the area of the world', function(t) {
-        t.equal(gjArea.geometry(all), 511207893395811.06);
-        t.end();
-    });
-    t.test('point has zero area', function(t) {
-        t.equal(gjArea.geometry({ type: 'Point', coordinates: [0,0] }), 0);
-        t.end();
-    });
-    t.test('linestring has zero area', function(t) {
-        t.equal(gjArea.geometry({ type: 'LineString', coordinates: [[0,0],[1,1]] }), 0);
-        t.end();
-    });
-    t.test('geometrycollection is the sum', function(t) {
-        t.equal(gjArea.geometry({ type: 'GeometryCollection', geometries: [all, ill] }), 511353871728170.44);
-        t.end();
-    });
-    t.end();
+const gjArea = require('../');
+const ill = require('./illinois.json');
+const all = require('./all.json');
+
+test('geojson area', async function (t) {
+  await t.test('computes the area of illinois', function () {
+    // 145978332359.36746 - round to 1/1000th part for comparison
+    assert.equal(Math.round(1000 * gjArea.geometry(ill)), 145978332359367);
+  });
+
+  // http://www.wolframalpha.com/input/?i=surface+area+of+earth
+  await t.test('computes the area of the world', function () {
+    assert.equal(gjArea.geometry(all), 511207893395811.06);
+  });
+
+  await t.test('point has zero area', function () {
+    assert.equal(gjArea.geometry({ type: 'Point', coordinates: [0, 0] }), 0);
+  });
+
+  await t.test('linestring has zero area', function () {
+    assert.equal(gjArea.geometry({ type: 'LineString', coordinates: [[0, 0], [1, 1]] }), 0);
+  });
+
+  await t.test('geometrycollection is the sum', function () {
+    assert.equal(gjArea.geometry({ type: 'GeometryCollection', geometries: [all, ill] }), 511353871728170.44);
+  });
 });
