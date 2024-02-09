@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/mapbox/geojson-area.png)](https://travis-ci.org/mapbox/geojson-area)
+[![NPM version][npm-image]][npm-url]
+[![Build Status][build-image]][build-url]
 
 # geojson-area
 
@@ -24,3 +25,10 @@ Given a Geometry object, return contained
 area as square meters. Invalid input will return `null`.
 
 Adapted from [OpenLayers](http://openlayers.org/)
+
+[npm-image]: https://img.shields.io/npm/v/@mapwhit/geojson-area
+[npm-url]: https://npmjs.org/package/@mapwhit/geojson-area
+
+[build-url]: https://github.com/mapwhit/geojson-area/actions/workflows/check.yaml
+[build-image]: https://img.shields.io/github/actions/workflow/status/mapwhit/geojson-area/check.yaml?branch=pu
+
