@@ -2,8 +2,12 @@
   "name": "@mapwhit/geojson-area",
   "version": "1.0.1",
   "description": "calculate the physical area of a geojson geometry",
-  "main": "index.js",
-  "repository": "mapwhit/geojson-area",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mapwhit/geojson-area.git"
+  },
+  "type": "module",
+  "exports": "./index.js",
   "scripts": {
     "test": "make check"
   },

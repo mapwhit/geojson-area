@@ -1,9 +1,6 @@
-const wgs84 = require('wgs84');
+import wgs84 from 'wgs84';
 
-module.exports.geometry = geometry;
-module.exports.ring = ringArea;
-
-function geometry({ type, coordinates, geometries }) {
+export function geometry({ type, coordinates, geometries }) {
   switch (type) {
     case 'Polygon':
       return polygonArea(coordinates);
@@ -22,9 +19,9 @@ function geometry({ type, coordinates, geometries }) {
 function polygonArea(coords) {
   let area = 0;
   if (coords?.length > 0) {
-    area += Math.abs(ringArea(coords[0]));
+    area += Math.abs(ring(coords[0]));
     for (let i = 1; i < coords.length; i++) {
-      area -= Math.abs(ringArea(coords[i]));
+      area -= Math.abs(ring(coords[i]));
     }
   }
   return area;
@@ -40,14 +37,13 @@ function polygonArea(coords) {
  *     Polygons on a Sphere", JPL Publication 07-03, Jet Propulsion
  *     Laboratory, Pasadena, CA, June 2007 http://trs-new.jpl.nasa.gov/dspace/handle/2014/40409
  *
- * Returns:
- * {float} The approximate signed geodesic area of the polygon in square
- *     meters.
+ * @param {Array<[number, number]>} coords - The coordinates of the Polygon
+ * @returns {number} The approximate signed geodesic area of the polygon in square meters.
  */
 
 const RADIUS_SQR = wgs84.RADIUS ** 2;
 
-function ringArea(coords) {
+export function ring(coords) {
   // it's a ring - ignore the last one
   const len = coords.length - 1;
 
