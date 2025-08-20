@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "mapwhit/geojson-area",
   "scripts": {
-    "test": "node --test"
+    "test": "make check"
   },
   "keywords": [
     "geojson",
@@ -17,7 +17,9 @@
   "dependencies": {
     "wgs84": "0.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0"
+  },
   "files": [
     "index.js"
   ]
